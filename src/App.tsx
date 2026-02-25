@@ -11,7 +11,8 @@ import { Download } from 'lucide-react';
 function App() {
   const [text, setText] = useState<string>('');
   const [config, setConfig] = useState<GenerationConfig>({
-    width: 800,
+    width: 640,
+    fontSize: 28,
     maxCharsPerImage: 1000,
     templateId: 'classic-minimal',
     emoji: '✨',
@@ -140,6 +141,7 @@ function App() {
                         content={chunk.content}
                         emoji={config.emoji}
                         width={config.width}
+                        fontSize={config.fontSize}
                         className="shadow-xl"
                       />
                   </div>

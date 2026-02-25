@@ -13,6 +13,7 @@ export interface TemplateConfig {
 
 export interface GenerationConfig {
   width: number;
+  fontSize: number;
   maxCharsPerImage: number;
   templateId: string;
   emoji: string;

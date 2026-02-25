@@ -55,6 +55,27 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({ config, onChange }) =>
         </div>
       </div>
 
+      {/* Font Size Control */}
+      <div className="space-y-2">
+        <label className="flex justify-between text-sm font-medium text-gray-700">
+          <span>Font Size</span>
+          <span className="text-blue-600 font-mono">{config.fontSize}px</span>
+        </label>
+        <input
+          type="range"
+          min="12"
+          max="48"
+          step="1"
+          value={config.fontSize}
+          onChange={(e) => onChange({ ...config, fontSize: parseInt(e.target.value) })}
+          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+        />
+        <div className="flex justify-between text-xs text-gray-400 px-1">
+          <span>12px</span>
+          <span>48px</span>
+        </div>
+      </div>
+
       {/* Max Chars Control (Only relevant for Multi mode or if Single mode needs cutting but user chose Single) */}
       <div className="space-y-2">
         <label className="flex justify-between text-sm font-medium text-gray-700">

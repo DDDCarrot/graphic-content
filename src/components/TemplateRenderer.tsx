@@ -7,6 +7,7 @@ interface TemplateRendererProps {
   content: string;
   emoji?: string;
   width?: number;
+  fontSize?: number;
   className?: string;
   id?: string;
 }
@@ -16,6 +17,7 @@ export const TemplateRenderer: React.FC<TemplateRendererProps> = ({
   content,
   emoji,
   width = 800,
+  fontSize = 20,
   className,
   id,
 }) => {
@@ -52,8 +54,8 @@ export const TemplateRenderer: React.FC<TemplateRendererProps> = ({
           {paragraphs.map((p, idx) => (
             <p 
               key={idx} 
-              className="mb-6 leading-relaxed text-lg whitespace-pre-wrap"
-              style={{ fontSize: '1.25rem', lineHeight: '1.8' }}
+              className="mb-6 leading-relaxed whitespace-pre-wrap"
+              style={{ fontSize: `${fontSize}px`, lineHeight: '1.8' }}
             >
               {p}
             </p>
