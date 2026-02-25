@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { templates } from './templates/config';
 import { splitText } from './utils/textProcessor';
 import { TemplateSelector } from './components/TemplateSelector';
@@ -8,16 +8,44 @@ import { toPng } from 'html-to-image';
 import type { GenerationConfig, TextChunk } from './types';
 import { Download } from 'lucide-react';
 
+const STORAGE_KEYS = {
+  TEXT: 'graphic-content-text',
+  CONFIG: 'graphic-content-config',
+};
+
+const DEFAULT_CONFIG: GenerationConfig = {
+  width: 640,
+  fontSize: 28,
+  maxCharsPerImage: 1000,
+  templateId: 'classic-minimal',
+  emoji: '✨',
+  mode: 'multi',
+};
+
 function App() {
-  const [text, setText] = useState<string>('');
-  const [config, setConfig] = useState<GenerationConfig>({
-    width: 640,
-    fontSize: 28,
-    maxCharsPerImage: 1000,
-    templateId: 'classic-minimal',
-    emoji: '✨',
-    mode: 'multi',
+  const [text, setText] = useState<string>(() => {
+    return localStorage.getItem(STORAGE_KEYS.TEXT) || '';
   });
+  
+  const [config, setConfig] = useState<GenerationConfig>(() => {
+    const saved = localStorage.getItem(STORAGE_KEYS.CONFIG);
+    if (saved) {
+      try {
+        return { ...DEFAULT_CONFIG, ...JSON.parse(saved) };
+      } catch (e) {
+        console.error('Failed to parse saved config', e);
+      }
+    }
+    return DEFAULT_CONFIG;
+  });
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEYS.TEXT, text);
+  }, [text]);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEYS.CONFIG, JSON.stringify(config));
+  }, [config]);
 
   const selectedTemplate = templates.find((t) => t.id === config.templateId) || templates[0];
 
